@@ -1,0 +1,87 @@
+The project structure is complete. Here's a summary:
+
+  Brain Tumor Agent/                                                                                                                                            
+  |
+  |-- README.md                    # Full documentation with setup instructions                                                                                 
+  |-- requirements.txt             # All Python dependencies
+  |-- setup.py                     # Package installer (pip install -e .)
+  |-- train.py                     # Top-level training entry point
+  |-- run_app.py                   # Streamlit launcher
+  |-- .gitignore                   # Ignores models, data, logs, etc.
+  |
+  |-- src/                         # Source code
+  |   |-- preprocessing/
+  |   |   |-- dataset.py           # BrainTumorDataset (PyTorch Dataset)
+  |   |   |-- transforms.py        # Albumentations augmentations
+  |   |
+  |   |-- model/
+  |   |   |-- vit_model.py         # ViT with frozen layers, feature extraction
+  |   |
+  |   |-- environment/
+  |   |   |-- brain_tumor_env.py   # Gymnasium env (features -> action -> reward)
+  |   |
+  |   |-- agent/
+  |   |   |-- train_agent.py       # PPO training with checkpoints + eval callbacks
+  |   |   |-- evaluate_agent.py    # Accuracy, precision, recall, F1, confusion matrix
+  |   |
+  |   |-- utils/
+  |       |-- config.py            # All hyperparameters in one place
+  |       |-- logger.py            # File + console logging
+  |       |-- visualizer.py        # Training curves, confusion matrix, image grids
+  |
+  |-- app/                         # Streamlit frontend
+  |   |-- main.py                  # Home page
+  |   |-- pages/
+  |       |-- 1_Dataset.py         # Browse MRI images
+  |       |-- 2_Training.py        # Monitor training
+  |       |-- 3_Prediction.py      # Upload & classify MRI
+  |
+  |-- tests/                       # Pytest unit tests
+  |   |-- test_preprocessing.py    # Transform & config tests
+  |   |-- test_model.py            # ViT shape & NaN tests
+  |   |-- test_environment.py      # Env step/reset tests
+  |
+  |-- notebooks/                   # Jupyter notebooks
+  |   |-- 01_data_exploration.ipynb
+  |   |-- 02_model_testing.ipynb
+  |
+  |-- data/                        # Dataset folders (empty, .gitkeep)
+  |   |-- raw/                     # Original MRI scans here
+  |   |-- processed/
+  |   |-- augmented/
+  |
+  |-- models/                      # Model weights (empty, .gitkeep)
+  |   |-- pretrained/
+  |   |-- checkpoints/
+  |
+  |-- logs/                        # TensorBoard logs
+  |-- assets/screenshots/          # App screenshots
+
+  Key design decisions:
+  - All hyperparameters centralized in src/utils/config.py
+  - ViT layers are frozen progressively to prevent overfitting
+  - RL environment is a single-step Gymnasium env (agent sees ViT features, picks a class)
+  - PPO uses MlpPolicy on top of ViT embeddings
+  - Streamlit app is multi-page (Dataset / Training / Prediction)
+  - All modules have if __name__ == "__main__" blocks for quick testing
+
+
+
+
+
+  How to use
+
+  # 1. Place MRI images in data/raw/
+  data/raw/glioma/*.jpg
+  data/raw/meningioma/*.jpg
+  data/raw/notumor/*.jpg
+  data/raw/pituitary/*.jpg
+
+  # 2. Split into train/val/test
+  python prepare_data.py
+
+  # 3. Visualize the dataset
+  python visualize_dataset.py
+
+  # 4. Run tests
+  python -m pytest tests/test_preprocessing.py -v

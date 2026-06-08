@@ -1,0 +1,50 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Large model weights (downloaded from HuggingFace at deploy time)
+models/pretrained/*.pth
+models/pretrained/*.pt
+models/checkpoints/*.pth
+
+# ALLOW the final trained model for Render deployment (use Git LFS for this file)
+!models/checkpoints/best_model.pth
+
+# DQN model is small (~100KB) — allow it in Git
+# models/checkpoints/dqn_treatment/  (NOT ignored)
+
+# Dataset (too large for git)
+data/raw/*
+data/processed/*
+data/augmented/*
+!data/.gitkeep
+
+# Logs
+logs/*
+!logs/.gitkeep
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment variables
+.env
+
+.agents
+.claude
+.openclaude

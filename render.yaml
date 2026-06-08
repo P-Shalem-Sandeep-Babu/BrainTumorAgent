@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: brain-tumor-agent
+    runtime: python
+    buildCommand: pip install -r requirements-render.txt
+    startCommand: streamlit run app/main.py --server.port $PORT --server.headless true
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.10"
+      - key: RENDER
+        value: "true"
+    healthCheckPath: /

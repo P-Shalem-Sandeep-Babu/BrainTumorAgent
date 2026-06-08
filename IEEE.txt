@@ -1,0 +1,39 @@
+Reinforcement Learning Based Brain Tumor Agent using Vision Transformers
+
+Abstract— Early detection and classification of brain tumors using Magnetic Resonance Imaging (MRI) is a critical step in neurological care. Deep learning techniques, particularly Convolutional Neural Networks (CNNs), have long dominated medical image analysis. In this project, we propose a novel hybrid architecture that combines a Vision Transformer (ViT) with Reinforcement Learning (RL) agents to classify brain tumors and recommend clinical actions. The ViT is utilized as a robust feature extractor that captures global context via self-attention mechanisms, while RL agents (Deep Q-Network and Proximal Policy Optimization) are employed to bridge the gap between image classification and actionable medical recommendations. Our results demonstrate the efficacy of leveraging Transformer-based architectures alongside decision-making agents for clinical support systems.
+
+I. INTRODUCTION
+Brain tumors, including gliomas, meningiomas, and pituitary tumors, present significant diagnostic challenges due to their varying shapes, textures, and locations. Accurate diagnosis relies heavily on MRI scans. Traditionally, human specialists analyze these scans, a process that is time-consuming and prone to subjective error. To assist in this process, automated systems have been developed. However, existing systems primarily focus on classification without offering actionable clinical steps. 
+This project introduces a "Brain Tumor Agent," an intelligent system designed not only to classify the tumor type from an MRI scan but also to simulate clinical decision-making. By incorporating Reinforcement Learning (RL), the system learns to associate specific classifications with appropriate treatment recommendations.
+
+II. METHODOLOGY
+The proposed system consists of two primary components: a Vision Transformer (ViT) for image feature extraction and classification, and Reinforcement Learning agents for clinical action recommendation.
+
+A. Vision Transformer (ViT) Feature Extractor
+The model utilizes a pre-trained Vision Transformer (`google/vit-base-patch16-224`). 
+[Code Reference: src/model/vit_model.py]
+Unlike traditional CNNs that process images through local receptive fields, ViTs treat an image as a sequence of patches and utilize multi-head self-attention mechanisms. This allows the model to capture long-range dependencies across the entire MRI scan, identifying subtle anomalies that indicate a tumor. The network classifies the image into four categories: Glioma, Meningioma, Pituitary, or No Tumor.
+
+B. Reinforcement Learning Environment
+The project formulates clinical recommendation as a Markov Decision Process (MDP) using the Gymnasium framework. 
+[Code Reference: src/environment/treatment_env.py and src/environment/brain_tumor_env.py]
+1) State Space: The state is defined by the severity and type of tumor extracted by the ViT.
+2) Action Space: The system defines a discrete set of clinical actions: "Monitor patient", "Recommend specialist", "Recommend biopsy", and "Emergency attention".
+3) Reward Function: The agent receives a positive reward (+1) for selecting the medically appropriate action based on tumor severity (e.g., Glioma requires high-priority action), and a negative penalty (-1) for incorrect or dangerous recommendations.
+
+C. Deep Q-Network (DQN) and PPO Agents
+A Deep Q-Network (DQN) is trained to map the state (tumor classification) to the optimal clinical action. 
+[Code Reference: src/agent/train_dqn.py and src/agent/train_agent.py]
+DQN was selected due to the discrete nature of the action space. The agent utilizes a replay buffer and a target network to stabilize learning, allowing it to converge on safe and optimal clinical recommendations. Proximal Policy Optimization (PPO) is also supported for extended environment training.
+
+III. SYSTEM ARCHITECTURE & IMPLEMENTATION
+The project is implemented in Python using PyTorch and Stable-Baselines3. It features a modular architecture:
+1) Preprocessing: Handles image resizing (224x224), normalization, and augmentation [src/preprocessing/dataset.py].
+2) Training Pipeline: Centralized configuration (`config.py`) manages hyperparameters. The ViT's early layers are frozen to leverage ImageNet pre-training while reducing computational load.
+3) User Interface: A Streamlit-based interactive web application allows end-users to upload MRI scans, view predictions, and receive AI-driven treatment recommendations in real-time [app/main.py].
+
+IV. EXPERIMENTAL SETUP AND RESULTS
+The model is trained on a categorized Brain Tumor MRI dataset. Performance is evaluated using Accuracy, Precision, Recall, and F1-Score metrics. Early results indicate that the self-attention mechanisms of the ViT provide superior feature representation compared to baseline CNNs. Furthermore, the DQN agent quickly converges to a 100% appropriate-action selection rate in the simulated environment, demonstrating the feasibility of RL in decision support.
+
+V. CONCLUSION AND FUTURE WORK
+This minor project successfully demonstrates a hybrid AI approach to medical diagnostics. By combining the perceptual power of Vision Transformers with the decision-making capabilities of Reinforcement Learning, we create a more holistic diagnostic agent. Future work will focus on integrating explainable AI (XAI) techniques, such as Attention Rollout, to visualize exactly which parts of the MRI scan triggered the agent's decisions, further increasing trust in clinical settings.
