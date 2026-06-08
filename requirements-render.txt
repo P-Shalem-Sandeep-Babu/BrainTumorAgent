@@ -1,0 +1,34 @@
+# ============================================
+# Brain Tumor Agent - Render Deployment Dependencies
+# ============================================
+# Uses CPU-only PyTorch to keep deploy size under Render's limits.
+# Install locally with:  pip install -r requirements.txt
+# Deploy on Render with:  pip install -r requirements-render.txt
+
+# --- Core Deep Learning (CPU-only for deployment) ---
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch>=2.0.0
+torchvision>=0.15.0
+transformers>=4.35.0
+timm>=0.9.0
+
+# --- Reinforcement Learning ---
+stable-baselines3>=2.1.0
+gymnasium>=0.29.0
+
+# --- Data & Image Processing ---
+Pillow>=10.0.0
+numpy>=1.24.0
+opencv-python-headless>=4.8.0
+albumentations>=1.3.0
+scikit-learn>=1.3.0
+
+# --- Frontend ---
+streamlit>=1.28.0
+
+# --- Visualization ---
+matplotlib>=3.7.0
+plotly>=5.18.0
+
+# --- Utilities ---
+tqdm>=4.66.0
