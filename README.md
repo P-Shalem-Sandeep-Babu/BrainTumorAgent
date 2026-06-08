@@ -1,3 +1,14 @@
+---
+title: Brain Tumor Agent
+emoji: 🧠
+colorFrom: blue
+colorTo: indigo
+sdk: streamlit
+sdk_version: 1.28.0
+app_file: app/main.py
+pinned: false
+---
+
 # Reinforcement Learning Based Brain Tumor Agent using Vision Transformers
 
 A minor project that combines **Reinforcement Learning** with **Vision Transformers (ViT)** to build an intelligent agent capable of detecting and localizing brain tumors from MRI scans.
